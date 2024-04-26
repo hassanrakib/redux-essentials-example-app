@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, nanoid } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSelector, createSlice, nanoid } from "@reduxjs/toolkit";
 import { client } from '../../api/client'
 
 const initialState = {
@@ -66,7 +66,7 @@ const postsSlice = createSlice({
                 state.status = 'failed';
                 state.error = action.error?.message;
             })
-        
+
         builder.addCase(addNewPost.fulfilled, (state, action) => {
             state.posts.push(action.payload);
         })
@@ -79,4 +79,6 @@ export default postsSlice.reducer;
 
 // selector functions
 export const selectAllPosts = state => state.posts.posts;
-export const selectPostById = (postId) => state => state.posts.posts.find(post => post.id === Number(postId))
+export const selectPostById = (postId) => state => state.posts.posts.find(post => post.id === postId)
+
+export const selectPostsByUser = createSelector([selectAllPosts, (state, userId) => userId], (posts, userId) => posts.filter(post => post.user === userId));

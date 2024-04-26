@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import PostAuthor from './PostAuthor';
 import TimeAgo from './TimeAgo';
@@ -18,7 +18,7 @@ const PostExcerpt = ({ post }) => {
       <ReactionButtons post={post} />
     </article>
   )
-}
+};
 
 export const PostsList = () => {
   const posts = useSelector(selectAllPosts);
@@ -26,8 +26,6 @@ export const PostsList = () => {
   const error = useSelector(state => state.posts.error);
 
   const dispatch = useDispatch();
-
-  console.log(posts, postsStatus, error);
 
   useEffect(() => {
     if (postsStatus === 'idle') {
